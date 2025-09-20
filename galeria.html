@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria e Videove - Desktop & Celular</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #fff;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 2em;
+  }
+
+  .gallery {
+    display: grid;
+    gap: 20px;
+    padding: 0 20px 40px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .video-box {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    /* Fixed aspect ratio 16:9 */
+    aspect-ratio: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .video-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  }
+
+  .video-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .play-btn {
+    position: absolute;
+    font-size: 60px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(0,0,0,0.7);
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    width: 100%;
+  }
+
+  .modal video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 35px;
+    background: #ff0000;
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+   header img {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #f5c542;
+    }
+
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <img src="logo e bardh.png" alt="Shaini Garage Logo">
+    <nav>
+      <ul>
+        <li><a href="index.html">Shaini Garage</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+     
+      </ul>
+    </nav>
+  </header>
+<h1>Galeria e Videove</h1>
+
+<div class="gallery">
+  <div class="video-box" data-video="A1.mp4">
+    <img src="porsch.png" alt="Video 1">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a2.mp4">
+    <img src="merc.png" alt="Video 2">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a3.mp4">
+    <img src="a33.png" alt="Video 3">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a4.mp4">
+    <img src="a44.png" alt="Video 4">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a5.mp4">
+    <img src="a55.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a6.mp4">
+    <img src="a66.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a7.mp4">
+    <img src="a77.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a8.mp4">
+    <img src="a88.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a9.mp4">
+    <img src="a99.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a10.mp4">
+    <img src="a1010.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+  <div class="video-box" data-video="a11.mp4">
+    <img src="a1111.png" alt="Video 5">
+    <div class="play-btn">&#9658;</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="videoModal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <video id="modalVideo" controls autoplay></video>
+  </div>
+</div>
+
+<script>
+const boxes = document.querySelectorAll('.video-box');
+const modal = document.getElementById('videoModal');
+const modalVideo = document.getElementById('modalVideo');
+const closeBtn = document.querySelector('.close-btn');
+
+boxes.forEach(box => {
+  box.addEventListener('click', () => {
+    modalVideo.src = box.dataset.video;
+    modal.style.display = 'flex';
+    modalVideo.play();
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  modalVideo.pause();
+  modalVideo.src = '';
+});
+
+modal.addEventListener('click', e => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    modalVideo.pause();
+    modalVideo.src = '';
+  }
+});
+</script>
+
+</body>
+</html>

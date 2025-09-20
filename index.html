@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaini Garage - Auto Folie Premium</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #111;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(20,20,20,0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 10%;
+      z-index: 1000;
+    }
+
+    header img {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #f5c542;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(65%);
+    }
+
+    .hero-content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #f5c542;
+      text-shadow: 0px 0px 15px rgba(245,197,66,0.8);
+    }
+
+    .hero-content p {
+      margin-top: 15px;
+      font-size: 1.3rem;
+      max-width: 600px;
+    }
+
+    .hero-content .btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #f5c542, #d49c24);
+      color: black;
+      cursor: pointer;
+      box-shadow: 0px 0px 15px rgba(245,197,66,0.6);
+      transition: 0.3s;
+    }
+
+    .hero-content .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 25px rgba(245,197,66,1);
+    }
+
+    /* SECTION BASE */
+    section {
+      padding: 100px 10%;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+      color: #f5c542;
+      text-shadow: 0px 0px 10px rgba(245,197,66,0.6);
+    }
+
+    /* CARDS */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: #1c1c1c;
+      padding: 25px;
+      border-radius: 15px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: #292929;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* GALLERY */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery img, .gallery video {
+      width: 100%;
+      border-radius: 15px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery img:hover, .gallery video:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 15px rgba(245,197,66,0.6);
+    }
+
+    /* CONTACT */
+    .contact {
+      background: #1a1a1a;
+      padding: 50px 20px;
+      border-radius: 15px;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .contact input, .contact textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+
+    .contact button {
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(45deg, #f5c542, #d49c24);
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact button:hover {
+      background: linear-gradient(45deg, #d49c24, #f5c542);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+      margin-top: 20px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 10%;
+      background: linear-gradient(90deg, #f5c542, #d49c24);
+      color: #111;
+      border-radius: 15px 15px 0 0;
+      margin-top: 50px;
+    }
+
+    footer p {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="logo e bardh.png" alt="Shaini Garage Logo">
+    <nav>
+      <ul>
+        <li><a href="#folie-xhama">Rreth nesh</a></li>
+        <li><a href="#folie-vetura">Produktet</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="#kontakti">Kontakti</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <video autoplay muted loop playsinline>
+      <source src="A1.mp4" type="video/mp4">
+      Browseri juaj nuk e suporton videon.
+    </video>
+    <div class="hero-content">
+      <h1>Shaini Garage</h1>
+      <p>Auto Folie Premium & Ngjyrosje Profesionale për vetura luksoze në Tetovë</p>
+      <a href="#folie-xhama" class="btn">Shiko Shërbimet</a>
+    </div>
+  </div>
+
+  <!-- FOLIE XHAMA -->
+  <section id="folie-xhama">
+    <h2>Rreth nesh</h2>
+    <div class="services">
+      <div class="card">
+        <img style="width: 30%;" src="logo e bardh.png"  alt="Folie xhami 50%">
+        <h3>Shaini'Garage </h3>
+        <p>ofron pun me kualitet te lartë dhe garancion shumvjecar sepse ka brendet edhe cmimet me te volitshme ne treg si :3m,xpel,stek,averydennison,
+          teckwrap,oracal,global.</p>
+        <strong>Çmimi: 50€</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOLIE VETURA -->
+  <section id="folie-vetura">
+    <h2>Cka ofrojme ne</h2>
+    <div class="services">
+      <div class="card">
+        <img src="folje karaseri.png" alt="Folie Mat">
+        <h3>Ndrim i ngjyrës në karoseri me folje </h3>
+        <p>(veturë, motor, autobus, anije)</p>
+        <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+
+      <div class="card">
+        <img src="ppf mbrojtje.png" alt="Folie Glossy">
+        <h3>Folje PPF për mbrojtje ngjyre</h3>
+        <p></p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+            <div class="card">
+        <img src="ppf folje mbrojtje.png" alt="Folie Glossy">
+        <h3>Folje PPF për mbrojtje të xhamave nga jashtë</h3>
+        <p> (Gurëve, UV)</p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+            <div class="card">
+        <img src="shtopa.png" alt="Folie Glossy">
+        <h3>Drita, Shtopa me folje PPF</h3>
+        <p></p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+            <div class="card">
+        <img src="xhamat e zinj.png" alt="Folie Glossy">
+        <h3>Xhamat e zinj UV%</h3>
+        <p>0 - 100 %</p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+            <div class="card">
+        <img src="chrome.png" alt="Folie Glossy">
+        <h3>Delete Chrome</h3>
+        <p></p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+            <div class="card">
+        <img src="interior.png" alt="Folie Glossy">
+        <h3>Veshja e interierit me folje</h3>
+        <p></p>
+         <br><hr><br>
+        <strong>Rezervo tani! -> 📞 071590101</strong>
+      </div>
+
+
+
+
+    </div>
+
+
+  </section>
+
+
+  <!-- KONTAKTI -->
+  <section id="kontakti">
+    <h2>Kontakti</h2>
+    <div class="contact">
+
+      <br>
+        <p>Ndjekni ne: 
+      <br><a href="https://www.facebook.com/profile.php?id=61573188903545" style="color:#ffffff; font-weight:bold;">📘 Facebook</a>
+      <br><a href="https://www.instagram.com/shainigarage?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color:#ffffff; font-weight:bold;">📸 Instagram</a>
+    </p>
+      <p style="margin-top:20px;">📍 Tetovë, Street 1220 <br> 📞 071590101</p>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.4497430228603!2d20.956340312357977!3d41.99062257110956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini&#39;s%20Garage!5e0!3m2!1sen!2smk!4v1758374125961!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Shaini Garage - Të gjitha të drejtat e rezervuara.</p>
+    <p>Krijaur nga:  <a href="www.jeton-elezi.info"> Jeton Elezi</a> </p>
+  
+  </footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroVideo = document.querySelector(".hero video");
+    heroVideo.play().catch(() => {
+      document.body.addEventListener("touchstart", () => {
+        heroVideo.play();
+      }, { once: true });
+    });
+  });
+</script>
+</body>
+</html>
