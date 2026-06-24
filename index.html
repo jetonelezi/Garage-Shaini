@@ -1,378 +1,938 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shaini Garage - Auto Folie Premium</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaini Garage | Tetovë</title>
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary-color: #e50914; /* E kuqe dinamike për aksent */
+            --bg-dark: #0f0f0f;
+            --text-light: #f4f4f4;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #111;
-      color: white;
-      overflow-x: hidden;
-    }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Parandalon që menyja fikse të mbulojë titujt e seksioneve */
+        }
 
-    a { text-decoration: none; color: inherit; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
 
-    /* HEADER */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(20,20,20,0.8);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 10%;
-      z-index: 1000;
-    }
+        /* Navbar (Menuja lart) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
 
-    header img {
-      height: 50px;
-    }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
+        .logo-img {
+            height: 100px; /* Madhësia e logos, ndryshoje sipas nevojës */
+            width: auto;
+            border-radius: 5px;
+        }
 
-    nav ul li a {
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-    }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
 
-    nav ul li a:hover {
-      color: #f5c542;
-    }
+        .logo-text span {
+            color: var(--primary-color);
+        }
 
-    /* HERO */
-    .hero {
-      position: relative;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
 
-    .hero video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(65%);
-    }
+        .nav-links li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
 
-    .hero-content {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
+        .nav-links li a:hover {
+            color: var(--primary-color);
+        }
 
-    .hero-content h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #f5c542;
-      text-shadow: 0px 0px 15px rgba(245,197,66,0.8);
-    }
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
 
-    .hero-content p {
-      margin-top: 15px;
-      font-size: 1.3rem;
-      max-width: 600px;
-    }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-light);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
 
-    .hero-content .btn {
-      margin-top: 25px;
-      padding: 12px 25px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 30px;
-      background: linear-gradient(45deg, #f5c542, #d49c24);
-      color: black;
-      cursor: pointer;
-      box-shadow: 0px 0px 15px rgba(245,197,66,0.6);
-      transition: 0.3s;
-    }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
 
-    .hero-content .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 25px rgba(245,197,66,1);
-    }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
 
-    /* SECTION BASE */
-    section {
-      padding: 100px 10%;
-      text-align: center;
-    }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
 
-    section h2 {
-      font-size: 2.2rem;
-      margin-bottom: 40px;
-      color: #f5c542;
-      text-shadow: 0px 0px 10px rgba(245,197,66,0.6);
-    }
+        /* Hero Section me Video Background */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            margin-top: 0;
+        }
 
-    /* CARDS */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            filter: brightness(0.4); /* E errëson pak videon që të duket teksti */
+        }
 
-    .card {
-      background: #1c1c1c;
-      padding: 25px;
-      border-radius: 15px;
-      transition: 0.3s;
-    }
+        .hero-content {
+            z-index: 1;
+            padding: 20px;
+        }
 
-    .card:hover {
-      transform: translateY(-10px);
-      background: #292929;
-    }
+        .hero h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
 
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    /* GALLERY */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
+        }
 
-    .gallery img, .gallery video {
-      width: 100%;
-      border-radius: 15px;
-      transition: 0.3s;
-      cursor: pointer;
-    }
+        /* Section Global Styles */
+        section {
+            padding: 80px 10%;
+        }
 
-    .gallery img:hover, .gallery video:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 15px rgba(245,197,66,0.6);
-    }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-    /* CONTACT */
-    .contact {
-      background: #1a1a1a;
-      padding: 50px 20px;
-      border-radius: 15px;
-    }
+        /* About Section */
+        .about-text {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+        }
 
-    .contact form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-width: 500px;
-      margin: auto;
-    }
+        .brands {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
 
-    .contact input, .contact textarea {
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-    }
+        .brand-tag {
+            background: #222;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            font-weight: bold;
+        }
 
-    .contact button {
-      padding: 12px;
-      border-radius: 30px;
-      border: none;
-      background: linear-gradient(45deg, #f5c542, #d49c24);
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(240px, 1fr));
+            gap: 18px;
+            max-width: 760px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-    .contact button:hover {
-      background: linear-gradient(45deg, #d49c24, #f5c542);
-    }
+        .service-card {
+            background: #1a1a1a;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+        }
 
-    iframe {
-      width: 100%;
-      height: 300px;
-      border-radius: 15px;
-      margin-top: 20px;
-    }
+        .service-card:hover {
+            border-bottom: 3px solid var(--primary-color);
+            transform: translateY(-5px);
+        }
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 30px 10%;
-      background: linear-gradient(90deg, #f5c542, #d49c24);
-      color: #111;
-      border-radius: 15px 15px 0 0;
-      margin-top: 50px;
-    }
+        .service-card-image {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            height: 180px;
+            object-fit: cover;
+            background: #111;
+            border-radius: 10px;
+            margin-bottom: 14px;
+        }
 
-    footer p {
-      font-weight: bold;
-    }
-  </style>
+        .service-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+        }
+
+        /* Gallery Section */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .media-box {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .media-box h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .grid-images,
+        .grid-videos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .grid-images img,
+        .video-thumb {
+            width: 100%;
+            height: 220px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .grid-images img {
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        .video-thumb::after {
+            content: '►';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 2rem;
+            background: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .grid-images img:hover,
+        .video-thumb:hover::after {
+            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .media-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 3000;
+        }
+
+        .media-modal.active {
+            display: flex;
+        }
+
+        .media-modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+            max-height: 95vh;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #000;
+        }
+
+        .media-modal-content img,
+        .media-modal-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: 14px;
+            background: #000;
+        }
+
+        .media-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.55);
+            color: #fff;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .media-modal-close:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #111;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .contact-info {
+            text-align: left;
+        }
+
+        .contact-info-item {
+            background: #1a1a1a;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .contact-info-item h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-info-item p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 0;
+        }
+
+        .contact-map {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: #050505;
+            color: #777;
+            border-top: 1px solid #222;
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ff3333;
+            text-shadow: 0 0 8px rgba(229, 9, 20, 0.5);
+        }
+
+        /* Responsive - Tablet */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: row;
+                padding: 10px 5%;
+                gap: 10px;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 15, 15, 0.98);
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                border-bottom: 1px solid #333;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            .nav-links.active {
+                max-height: 500px;
+            }
+            .nav-links li {
+                border-bottom: 1px solid #222;
+            }
+            .nav-links li a {
+                display: block;
+                padding: 15px 5%;
+                font-size: 0.85rem;
+            }
+            .logo-img {
+                height: 60px;
+            }
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .media-box {
+                width: 100%;
+            }
+            .grid-images {
+                gap: 5px;
+            }
+            .grid-images img,
+            .grid-images video,
+            .grid-videos video,
+            .video-thumb {
+                height: 150px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                max-width: 100%;
+            }
+            .service-card-image {
+                aspect-ratio: 4 / 3;
+                padding: 8px;
+            }
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .contact-map iframe {
+                height: 300px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            section {
+                padding: 50px 5%;
+            }
+        }
+
+        /* Responsive - Mobile */
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 8px 3%;
+                gap: 5px;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 15, 15, 0.98);
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                border-bottom: 1px solid #333;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            .nav-links.active {
+                max-height: 500px;
+            }
+            .nav-links li {
+                border-bottom: 1px solid #222;
+            }
+            .nav-links li a {
+                display: block;
+                padding: 12px 5%;
+                font-size: 0.7rem;
+                letter-spacing: 0px;
+            }
+            .logo-img {
+                height: 45px;
+            }
+            .logo-text {
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+            .hero p {
+                font-size: 0.9rem !important;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .media-box {
+                width: 100%;
+            }
+            .media-box h3 {
+                font-size: 1.3rem;
+            }
+            .grid-images {
+                gap: 8px;
+            }
+            .grid-images img,
+            .grid-videos video {
+                height: 220px;
+            }
+            section {
+                padding: 40px 3%;
+            }
+            .service-card {
+                padding: 12px;
+            }
+            .service-card-image {
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                height: 140px;
+                object-fit: cover;
+                background: #111;
+                border-radius: 10px;
+                margin-bottom: 10px;
+            }
+            .service-card h3 {
+                font-size: 1rem;
+            }
+            .service-card p {
+                font-size: 0.85rem;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+                gap: 12px;
+                max-width: 100%;
+            }
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .contact-map iframe {
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <img src="logo e bardh.png" alt="Shaini Garage Logo">
-    <nav>
-      <ul>
-        <li><a href="#folie-xhama">Rreth nesh</a></li>
-        <li><a href="#folie-vetura">Produktet</a></li>
-        <li><a href="galeria.html">Galeria</a></li>
-        <li><a href="#kontakti">Kontakti</a></li>
-      </ul>
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <a href="#kreu" class="logo-container">
+            <!-- Zëvendëso URL me logon tënde nëse ke një foto -->
+            <img src="foto\logo e bardh.png" alt="Shaini Garage Logo" class="logo-img">
+            <span class="logo-text">Shaini <span>Garage</span></span>
+        </a>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#kreu">Ballina</a></li>
+            <li><a href="#rreth-nesh">Rreth Nesh</a></li>
+            <li><a href="#sherbimet">Shërbimet</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#kontakti">Kontakti</a></li>
+        </ul>
     </nav>
-  </header>
 
-  <!-- HERO -->
-  <div class="hero">
-    <video autoplay muted loop playsinline>
-      <source src="A1.mp4" type="video/mp4">
-      Browseri juaj nuk e suporton videon.
-    </video>
-    <div class="hero-content">
-      <h1>Shaini Garage</h1>
-      <p>Auto Folie Premium & Ngjyrosje Profesionale për vetura luksoze në Tetovë</p>
-      <a href="#folie-xhama" class="btn">Shiko Shërbimet</a>
+    <!-- Hero Section -->
+    <section class="hero" id="kreu">
+        <!-- Zëvendëso 'videon-tende.mp4' me linkun ose file-in tënd të videos -->
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="foto\A1.mp4" type="video/mp4">
+            Shfletuesi juaj nuk suporton videot.
+        </video>
+        
+        <div class="hero-content">
+            <h1>Shaini Garage</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; letter-spacing: 1px;">Premium Auto Styling & Detailing</p>
+            <a href="https://wa.me/38971590101" target="_blank" class="btn-whatsapp">
+                💬 Na Shkruaj në WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="rreth-nesh">
+        <h2 class="section-title">Pse Të Zgjidhni <br><strong>Shaini Garage?</strong></h2>
+
+        <div class="about-text">
+            <p><strong>Shaini Garage</strong> ofron punë me kualitet të lartë dhe garancion shumëvjeçar sepse ne përdorim vetëm brendet dhe çmimet më të volitshme në treg. Përkushtimi ynë në detaje bën diferencën.</p>
+        </div>
+        <div class="brands">
+            <span class="brand-tag">3M</span>
+            <span class="brand-tag">XPEL</span>
+            <span class="brand-tag">STEK</span>
+            <span class="brand-tag">Avery Dennison</span>
+            <span class="brand-tag">TeckWrap</span>
+            <span class="brand-tag">Oracal</span>
+            <span class="brand-tag">Global</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="sherbimet" style="background-color: #141414;">
+        <h2 class="section-title">Shërbimet Tona</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="foto2\fghjydkiydt.webp" alt="Wrap Service" class="service-card-image">
+                <h3>🏎️ Wrap</h3>
+                <p>Veshje e plotë ose e pjesshme me folie premium.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\3m-paint-protection-film-series-150-gloss.webp" alt="PPF Service" class="service-card-image">
+                <h3>🛡️ PPF</h3>
+                <p>Paint Protection Film për mbrojtje nga gërvishtjet.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\window-tinting.jpg" alt="Tinted Windows" class="service-card-image">
+                <h3>🕶️ Xhama të Zi</h3>
+                <p>Errësim xhamash me kualitet të lartë.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\chrr.webp" alt="Chrome Delete" class="service-card-image">
+                <h3>🖤 Chrome Delete</h3>
+                <p>Zhdukja e detajeve të kromit për një pamje agresive.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\63187b343220033170763e0f_WhatsApp Image 2022-09-07 at 12.06.10.jpeg" alt="Lights Styling" class="service-card-image">
+                <h3>💡 Fara & Stopat</h3>
+                <p>Zbukurim dhe mbrojtje për dritat tuaja.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\images.jpg" alt="Polish" class="service-card-image">
+                <h3>✨ Polish</h3>
+                <p>Rikthimi i shkëlqimit total të ngjyrës origjinale.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\istockphoto-1800033825-612x612.jpg" alt="Interior Cleaning" class="service-card-image">
+                <h3>🧼 Pastrim Kimik</h3>
+                <p>Pastrim i thellë profesional i interierit (Hemisko).</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\Untitled_design_18__11zon_a3d0deb6-aa37-4407-a218-f36ee6f0baa6_1024x1024.webp" alt="Body Kit" class="service-card-image">
+                <h3>🛠️ Bodykit</h3>
+                <p>Ndërrim i farave, shtopave dhe brankiave.</p>
+            </div>
+            <div class="service-card">
+                <img src="foto2\images (1).jpg" alt="Accessories" class="service-card-image">
+                <h3>⚙️ Aksesorë</h3>
+                <p>Instalim i aksesorëve të ndryshëm për veturën.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria">
+        <h2 class="section-title">Punimet Tona</h2>
+        <div class="gallery-container">
+            <!-- Pjesa e Fotove -->
+            <div class="media-box">
+                <h3>Fotografi</h3>
+                <div class="grid-images">
+                    <img src="foto\a44.png" alt="Car Wrap 1">
+                    <img src="foto\a55.png" alt="Car Wrap 2">
+                    <img src="foto\a66.png" alt="Car Polish 1">
+                    <img src="foto\a1111.png" alt="Car Detail 1">
+                </div>
+            </div>
+            
+            <!-- Pjesa e Videove -->
+            <div class="media-box">
+                <h3>Video Imazhe</h3>
+                <div class="grid-videos">
+                    <div class="video-thumb">
+                        <video muted playsinline preload="metadata">
+                            <source src="foto\a6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-thumb">
+                        <video muted playsinline preload="metadata">
+                            <source src="foto\a6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="kontakti" class="contact">
+        <h2 class="section-title">Na Kontaktoni</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+           
+                <div class="contact-info-item">
+                    <h4>📞 Telefoni</h4>
+                    <p>+38971590101</p>
+                </div>
+                <div class="contact-info-item">
+                    <h4>📧 Email</h4>
+                    <p>info@shainigarage.com</p>
+                </div>
+                <div class="contact-info-item">
+                    <h4>⏰ Orari</h4>
+                    <p>Hënë - Premte: 09:00 - 18:00<br>
+                    Shtunë: 09:00 - 16:00<br>
+                    Diel: I mbyllur</p>
+                </div>
+                <a href="https://wa.me/38971590101" target="_blank" class="btn-whatsapp" style="margin-top: 20px; width: 100%; justify-content: center;">
+                    💬 Na Shkruaj në WhatsApp
+                </a>
+            </div>
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d741.3653802403713!2d20.95851714335952!3d41.99036975314913!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini&#39;s%20Garage!5e0!3m2!1sen!2smk!4v1782162659216!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <div class="media-modal" id="mediaModal" aria-hidden="true">
+        <div class="media-modal-content" id="mediaModalContent">
+            <button class="media-modal-close" id="mediaModalClose" aria-label="Mbyll">×</button>
+        </div>
     </div>
-  </div>
 
-  <!-- FOLIE XHAMA -->
-  <section id="folie-xhama">
-    <h2>Rreth nesh</h2>
-    <div class="services">
-      <div class="card">
-        <img style="width: 30%;" src="logo e bardh.png"  alt="Folie xhami 50%">
-        <h3>Shaini'Garage </h3>
-        <p>ofron pun me kualitet te lartë dhe garancion shumvjecar sepse ka brendet edhe cmimet me te volitshme ne treg si :3m, xpel, stek, averydennison,
-           teckwrap, oracal, global.</p>
-      </div>
-    </div>
-  </section>
+    <footer>
+        <p>&copy; 2026 Shaini Garage. Të gjitha të drejtat e rezervuara.</p>
+        <p>Krijuar nga: <a href="https://www.jetonelezi.com" target="_blank" rel="noopener noreferrer">www.jetonelezi.com</a></p>
+    </footer>
 
-  <!-- FOLIE VETURA -->
-  <section id="folie-vetura">
-    <h2>Cka ofrojme ne</h2>
-    <div class="services">
-      <div class="card">
-        <img src="folje karaseri.png" alt="Folie Mat">
-        <h3>Ndrim i ngjyrës në karoseri me folje </h3>
-        <p>(veturë, motor, autobus, anije)</p>
-        <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
 
+        // Close menu when a link is clicked
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
 
-      <div class="card">
-        <img src="ppf mbrojtje.png" alt="Folie Glossy">
-        <h3>Folje PPF për mbrojtje ngjyre</h3>
-        <p></p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+        // Gallery zoom modal
+        const mediaModal = document.getElementById('mediaModal');
+        const mediaModalContent = document.getElementById('mediaModalContent');
+        const mediaModalClose = document.getElementById('mediaModalClose');
 
-            <div class="card">
-        <img src="ppf folje mbrojtje.png" alt="Folie Glossy">
-        <h3>Folje PPF për mbrojtje të xhamave nga jashtë</h3>
-        <p> (Gurëve, UV)</p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+        const galleryMedia = document.querySelectorAll('.grid-images img, .video-thumb');
+        let scrollPosition = 0;
 
-            <div class="card">
-        <img src="shtopa.png" alt="Folie Glossy">
-        <h3>Drita, Shtopa me folje PPF</h3>
-        <p></p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+        function closeMediaModal() {
+            mediaModal.classList.remove('active');
+            mediaModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+            const child = mediaModalContent.querySelector('img, video');
+            if (child) {
+                if (child.tagName === 'VIDEO') {
+                    child.pause();
+                    child.removeAttribute('src');
+                }
+                child.remove();
+            }
+        }
 
-            <div class="card">
-        <img src="xhamat e zinj.png" alt="Folie Glossy">
-        <h3>Xhamat e zinj UV%</h3>
-        <p>0 - 100 %</p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+        function openMediaModal(item) {
+            scrollPosition = window.scrollY;
+            const isImage = item.tagName.toLowerCase() === 'img';
+            const sourceUrl = isImage
+                ? item.src
+                : item.querySelector('video source')?.src || item.querySelector('video')?.currentSrc;
 
-            <div class="card">
-        <img src="chrome.png" alt="Folie Glossy">
-        <h3>Delete Chrome</h3>
-        <p></p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+            if (!sourceUrl) return;
 
-            <div class="card">
-        <img src="interior.png" alt="Folie Glossy">
-        <h3>Veshja e interierit me folje</h3>
-        <p></p>
-         <br><hr><br>
-        <strong>Rezervo tani! -> 📞 071590101</strong>
-      </div>
+            document.body.style.overflow = 'hidden';
+            window.scrollTo({ top: 0, behavior: 'instant' });
 
+            if (isImage) {
+                const mediaElement = document.createElement('img');
+                mediaElement.src = sourceUrl;
+                mediaElement.alt = item.alt || '';
+                mediaModalContent.appendChild(mediaElement);
+                mediaModal.classList.add('active');
+                mediaModal.setAttribute('aria-hidden', 'false');
+            } else {
+                const mediaElement = document.createElement('video');
+                mediaElement.src = sourceUrl;
+                mediaElement.controls = true;
+                mediaElement.autoplay = false;
+                mediaElement.muted = false;
+                mediaElement.playsInline = true;
+                mediaElement.style.maxHeight = '90vh';
+                mediaModalContent.appendChild(mediaElement);
+                mediaModal.classList.add('active');
+                mediaModal.setAttribute('aria-hidden', 'false');
+                mediaModal.scrollIntoView({ block: 'center' });
+            }
+        }
 
+        galleryMedia.forEach(item => {
+            item.addEventListener('click', () => openMediaModal(item));
+        });
 
+        mediaModalClose.addEventListener('click', closeMediaModal);
+        mediaModal.addEventListener('click', (event) => {
+            if (event.target === mediaModal) {
+                closeMediaModal();
+            }
+        });
 
-    </div>
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && mediaModal.classList.contains('active')) {
+                closeMediaModal();
+            }
+        });
+    </script>
 
-
-  </section>
-
-
-  <!-- KONTAKTI -->
-  <section id="kontakti">
-    <h2>Kontakti</h2>
-    <div class="contact">
-
-      <br>
-        <p>Ndjekni ne: 
-      <br><a href="https://www.facebook.com/profile.php?id=61573188903545" style="color:#ffffff; font-weight:bold;">📘 Facebook</a>
-      <br><a href="https://www.instagram.com/shainigarage?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color:#ffffff; font-weight:bold;">📸 Instagram</a>
-    </p>
-      <p style="margin-top:20px;">📍 Tetovë, Street 1220 <br> 📞 071590101</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.4497430228603!2d20.956340312357977!3d41.99062257110956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini&#39;s%20Garage!5e0!3m2!1sen!2smk!4v1758374125961!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Shaini Garage - Të gjitha të drejtat e rezervuara.</p>
-     <p>Krijaur nga:  <a href="https://jetonelezi.com"> Jeton Elezi</a> </p>
-  
-  </footer>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const heroVideo = document.querySelector(".hero video");
-    heroVideo.play().catch(() => {
-      document.body.addEventListener("touchstart", () => {
-        heroVideo.play();
-      }, { once: true });
-    });
-  });
-</script>
 </body>
 </html>
-
