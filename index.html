@@ -269,10 +269,70 @@
         /* Gallery Section */
         .gallery-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 30px;
             width: 100%;
-            overflow-x: hidden;
+        }
+
+        .gallery-intro {
+            text-align: center;
+            max-width: 860px;
+            margin: 0 auto 20px;
+            color: #d3d3d3;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            width: 100%;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #111;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+            min-height: 260px;
+            cursor: zoom-in;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.62));
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .gallery-card:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-label {
+            position: absolute;
+            left: 18px;
+            bottom: 18px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
         }
 
         .media-box {
@@ -286,7 +346,6 @@
             font-size: 1.8rem;
         }
 
-        .grid-images,
         .grid-videos {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -294,7 +353,6 @@
             width: 100%;
         }
 
-        .grid-images img,
         .video-thumb {
             width: 100%;
             height: 220px;
@@ -302,14 +360,10 @@
             overflow: hidden;
             position: relative;
             cursor: pointer;
+            background: #000;
         }
 
-        .grid-images img {
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .video-thumb video {
+        .video-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -331,7 +385,6 @@
             transition: background 0.2s ease, transform 0.2s ease;
         }
 
-        .grid-images img:hover,
         .video-thumb:hover::after {
             transform: scale(1.05);
             background: rgba(0, 0, 0, 0.35);
@@ -436,6 +489,28 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            background: #111;
+        }
+
+        .coming-soon-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(90deg, rgba(229,9,20,0.95), rgba(255,118,118,0.95));
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.05rem;
+        }
+
+        .contact-map-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
         }
 
         .contact-map iframe {
@@ -512,20 +587,22 @@
                 font-size: 1.1rem;
             }
             .gallery-container {
-                grid-template-columns: 1fr;
                 gap: 20px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .gallery-card {
+                min-height: 220px;
             }
             .media-box {
                 width: 100%;
             }
-            .grid-images {
-                gap: 5px;
+            .grid-videos {
+                gap: 12px;
             }
-            .grid-images img,
-            .grid-images video,
-            .grid-videos video,
             .video-thumb {
-                height: 150px;
+                height: 180px;
             }
             .services-grid {
                 grid-template-columns: 1fr;
@@ -604,8 +681,10 @@
                 font-size: 1.5rem;
             }
             .gallery-container {
-                grid-template-columns: 1fr;
                 gap: 15px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
             .media-box {
                 width: 100%;
@@ -613,12 +692,11 @@
             .media-box h3 {
                 font-size: 1.3rem;
             }
-            .grid-images {
-                gap: 8px;
+            .grid-videos {
+                gap: 12px;
             }
-            .grid-images img,
-            .grid-videos video {
-                height: 220px;
+            .video-thumb {
+                height: 180px;
             }
             section {
                 padding: 40px 3%;
@@ -683,7 +761,7 @@
     <section class="hero" id="kreu">
         <!-- Zëvendëso 'videon-tende.mp4' me linkun ose file-in tënd të videos -->
         <video autoplay muted loop playsinline class="hero-video">
-            <source src="foto\A1.mp4" type="video/mp4">
+            <source src="8b51a15a-14e5-4cd7-bbab-fa01cdeb2d4a.mp4" type="video/mp4">
             Shfletuesi juaj nuk suporton videot.
         </video>
         
@@ -769,31 +847,60 @@
     <!-- Gallery Section -->
     <section id="galeria">
         <h2 class="section-title">Punimet Tona</h2>
+        <p class="gallery-intro">Galeria jonë tregon transformimet më cilësore të veturave: nga wrap-et e personalizuara te detajet e pastra e ndriçuese. Shikoni disa nga punimet më të fundit të Shaini Garage.</p>
         <div class="gallery-container">
-            <!-- Pjesa e Fotove -->
-            <div class="media-box">
-                <h3>Fotografi</h3>
-                <div class="grid-images">
-                    <img src="foto\a44.png" alt="Car Wrap 1">
-                    <img src="foto\a55.png" alt="Car Wrap 2">
-                    <img src="foto\a66.png" alt="Car Polish 1">
-                    <img src="foto\a1111.png" alt="Car Detail 1">
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <img src="0f025454-8b6b-4228-854b-d5ca0546c874.jpeg" alt="Wrap i plotë te një veture" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                   
+                </div>
+                <div class="gallery-card">
+                    <img src="foto/a55.png" alt="Stilizim i jashtëm me folie" loading="lazy">
+                    <div class="gallery-overlay"></div>
+           
+                </div>
+                <div class="gallery-card">
+                    <img src="f2f4f39c-0d2f-46f8-9f8b-c9f51788017f.jpeg" alt="Punë detajimi dhe polish" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                 
+                </div>
+                <div class="gallery-card">
+                    <img src="foto/a1111.png" alt="Detaje të ndriçuara në një veturë" loading="lazy">
+                    <div class="gallery-overlay"></div>
+            
+                </div>
+                <div class="gallery-card">
+                    <img src="foto/a33.png" alt="Xhama të errët të instalimit" loading="lazy">
+                    <div class="gallery-overlay"></div>
+                
+                </div>
+                <div class="gallery-card">
+                    <img src="61cdc95f-f5d8-4d38-b15e-81770bc299e4.jpeg" alt="Aplikim PPF për mbrojtje" loading="lazy">
+                    <div class="gallery-overlay"></div>
+          
+                </div>
+                <div class="gallery-card">
+                    <img src="foto/a88.png" alt="Chrome delete dhe përfundime stilistike" loading="lazy">
+                    <div class="gallery-overlay"></div>
+    
+                </div>
+                <div class="gallery-card">
+                    <img src="foto/a99.png" alt="Detaje të brendshme të një veture" loading="lazy">
+                    <div class="gallery-overlay"></div>
+       
                 </div>
             </div>
-            
+
             <!-- Pjesa e Videove -->
             <div class="media-box">
-                <h3>Video Imazhe</h3>
+                <h3>Video </h3>
                 <div class="grid-videos">
-                    <div class="video-thumb">
-                        <video muted playsinline preload="metadata">
-                            <source src="foto\a6.mp4" type="video/mp4">
-                        </video>
+                                            <div class="video-thumb" data-video-src="foto/a6.mp4">
+                        <img src="fa1.png" alt="Pamje paraprake video" loading="lazy">
                     </div>
-                    <div class="video-thumb">
-                        <video muted playsinline preload="metadata">
-                            <source src="foto\a6.mp4" type="video/mp4">
-                        </video>
+                    <div class="video-thumb" data-video-src="foto/a10.mp4">
+                        <img src="fa2.png" alt="Pamje paraprake video" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -812,12 +919,11 @@
                 </div>
                 <div class="contact-info-item">
                     <h4>📧 Email</h4>
-                    <p>info@shainigarage.com</p>
+                    <p>garageshaini@gmail.com</p>
                 </div>
                 <div class="contact-info-item">
                     <h4>⏰ Orari</h4>
-                    <p>Hënë - Premte: 09:00 - 18:00<br>
-                    Shtunë: 09:00 - 16:00<br>
+                    <p>Hënë - Shtunë: 09:00 - 19:00<br>
                     Diel: I mbyllur</p>
                 </div>
                 <a href="https://wa.me/38971590101" target="_blank" class="btn-whatsapp" style="margin-top: 20px; width: 100%; justify-content: center;">
@@ -825,6 +931,8 @@
                 </a>
             </div>
             <div class="contact-map">
+                <div class="coming-soon-banner">Lokali i ri në Shkup<br> Coming Soon</div>
+                <img src="lokali.png" alt="Foto e lokacionit të ri" class="contact-map-image" loading="lazy"><br><br>
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d741.3653802403713!2d20.95851714335952!3d41.99036975314913!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini&#39;s%20Garage!5e0!3m2!1sen!2smk!4v1782162659216!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </section>
@@ -864,7 +972,7 @@
         const mediaModalContent = document.getElementById('mediaModalContent');
         const mediaModalClose = document.getElementById('mediaModalClose');
 
-        const galleryMedia = document.querySelectorAll('.grid-images img, .video-thumb');
+        const galleryMedia = document.querySelectorAll('.gallery-card, .video-thumb');
         let scrollPosition = 0;
 
         function closeMediaModal() {
@@ -884,20 +992,26 @@
 
         function openMediaModal(item) {
             scrollPosition = window.scrollY;
-            const isImage = item.tagName.toLowerCase() === 'img';
-            const sourceUrl = isImage
-                ? item.src
-                : item.querySelector('video source')?.src || item.querySelector('video')?.currentSrc;
+            const isGalleryCard = item.classList.contains('gallery-card');
+            const isVideoThumb = item.classList.contains('video-thumb');
+            const imageElement = isGalleryCard ? item.querySelector('img') : null;
+            const sourceUrl = isGalleryCard
+                ? imageElement?.src
+                : isVideoThumb
+                    ? item.dataset.videoSrc
+                    : item.tagName.toLowerCase() === 'img'
+                        ? item.src
+                        : item.querySelector('video source')?.src || item.querySelector('video')?.currentSrc;
 
             if (!sourceUrl) return;
 
             document.body.style.overflow = 'hidden';
             window.scrollTo({ top: 0, behavior: 'instant' });
 
-            if (isImage) {
+            if (isGalleryCard || item.tagName.toLowerCase() === 'img') {
                 const mediaElement = document.createElement('img');
                 mediaElement.src = sourceUrl;
-                mediaElement.alt = item.alt || '';
+                mediaElement.alt = imageElement?.alt || item.alt || '';
                 mediaModalContent.appendChild(mediaElement);
                 mediaModal.classList.add('active');
                 mediaModal.setAttribute('aria-hidden', 'false');
