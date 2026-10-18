@@ -57,7 +57,7 @@
             <!-- Profili -->
             <div class="flex w-full min-w-0 items-center gap-3 sm:gap-4 mb-6 md:mb-0 md:w-auto">
                 <div class="w-20 h-20 md:w-24 md:h-24 shrink-0 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
-                    <img src="logo shaini.jpeg" alt="Logo SHAINI GARAGE" class="w-full h-full rounded-full object-contain">
+                    <img src="logo-shaini.jpeg" alt="Logo SHAINI GARAGE" class="w-full h-full rounded-full object-contain">
                 </div>
                 <div class="relative min-w-0 flex-1">
                     <h1 class="text-xl sm:text-2xl font-bold">SHAINI GARAGE</h1>
@@ -629,12 +629,12 @@
                 name: 'Orari - Tetovë',
                 statusId: 'tetovoStatus',
                 days: [
-                    ['E hënë', '08:00-16:00'],
-                    ['E martë', 'Mbyllur'],
-                    ['E mërkurë', '08:00-16:00'],
-                    ['E enjte', '08:00-16:00'],
-                    ['E premte', 'Mbyllur'],
-                    ['E shtunë', 'Mbyllur'],
+                    ['E hënë', '08:30-20:00'],
+                    ['E martë', '08:30-20:00'],
+                    ['E mërkurë', '08:30-20:00'],
+                    ['E enjte', '08:30-20:00'],
+                    ['E premte', '08:30-20:00'],
+                    ['E shtunë', '08:30-20:00'],
                     ['E diel', 'Mbyllur']
                 ]
             },
@@ -644,12 +644,12 @@
                 name: 'Orari - Shkup',
                 statusId: 'skopjeStatus',
                 days: [
-                    ['E hënë', 'Mbyllur'],
-                    ['E martë', '08:00-16:00'],
-                    ['E mërkurë', 'Mbyllur'],
-                    ['E enjte', 'Mbyllur'],
-                    ['E premte', '08:00-16:00'],
-                    ['E shtunë', '08:00-16:00'],
+                    ['E hënë', '08:30-20:00'],
+                    ['E martë', '08:30-20:00'],
+                    ['E mërkurë', '08:30-20:00'],
+                    ['E enjte', '08:30-20:00'],
+                    ['E premte', '08:30-20:00'],
+                    ['E shtunë', '08:30-20:00'],
                     ['E diel', 'Mbyllur']
                 ]
             }
@@ -728,8 +728,8 @@
 
             locationSchedules.forEach(location => {
                 const isOpen = location.openDays.includes(currentDay)
-                    && currentMinutes >= 8 * 60
-                    && currentMinutes < 16 * 60;
+                    && currentMinutes >= 8 * 60 + 30
+                    && currentMinutes < 20 * 60;
                 const status = document.getElementById(location.statusId);
                 status.textContent = isOpen ? translate('openNow') : translate('closedNow');
                 status.classList.toggle('text-green-300', isOpen);
