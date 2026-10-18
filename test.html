@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAINI GARAGE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Fshehja e scrollbar-it për listën horizontale */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Sfondi me tekstin Watermark SHAINI GARAGE */
+        .watermark-bg {
+            background-color: #0f1115;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="65%" font-size="100" font-weight="900" font-family="Arial" fill="rgba(255,255,255,0.04)" text-anchor="middle" letter-spacing="8">SHAINI GARAGE</text></svg>');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Animacioni i dritares (Modal) */
+        .modal-enter { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="bg-white font-sans text-gray-800">
+
+    <!-- Header & Profile -->
+    <header class="watermark-bg text-white pt-12 pb-16 px-4 relative z-20 overflow-visible">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
+            <!-- Profili -->
+            <div class="flex items-center gap-4 mb-6 md:mb-0">
+                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
+                    <img src="foto/logo.png" alt="Logo SHAINI GARAGE" class="w-full h-full rounded-full object-contain">
+                </div>
+                <div class="relative">
+                    <h1 class="text-2xl font-bold">SHAINI GARAGE</h1>
+                    <p class="text-sm text-gray-300 mb-2"><i class="fa-solid fa-location-dot mr-1"></i> Tetovë, Shkup - Maqedonia e Veriut</p>
+                    <div class="flex flex-wrap gap-2" aria-label="Statusi i lokacioneve">
+                        <button id="tetovoLocationButton" type="button" aria-expanded="false" aria-controls="locationSchedule" class="bg-gray-800 text-white text-xs font-bold px-3 py-2 rounded-full flex flex-col items-start gap-1">
+                            <span class="flex w-full items-center justify-between gap-3">Tetovë <i id="tetovoChevron" class="fa-solid fa-chevron-down" aria-hidden="true"></i></span>
+                            <span id="tetovoStatus" class="text-red-300" aria-live="polite">Po kontrollohet...</span>
+                        </button>
+                        <button id="skopjeLocationButton" type="button" aria-expanded="false" aria-controls="locationSchedule" class="bg-gray-800 text-white text-xs font-bold px-3 py-2 rounded-full flex flex-col items-start gap-1">
+                            <span class="flex w-full items-center justify-between gap-3">Shkup <i id="skopjeChevron" class="fa-solid fa-chevron-down" aria-hidden="true"></i></span>
+                            <span id="skopjeStatus" class="text-red-300" aria-live="polite">Po kontrollohet...</span>
+                        </button>
+                    </div>
+                    <div id="locationSchedule" class="hidden absolute left-0 top-full z-50 mt-3 w-72 max-w-[calc(100vw-2rem)] rounded-xl p-4 shadow-xl" style="background-color: #fff; color: #1f2937;" role="region" aria-live="polite" aria-label="Orari i lokacionit">
+                        <h2 id="scheduleTitle" class="mb-3 font-bold"></h2>
+                        <ul id="scheduleDays" class="space-y-2 text-sm"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rrjetet Sociale dhe Butoni Rezervo -->
+            <div class="flex flex-col items-center md:items-end gap-4">
+                <div class="flex gap-3 text-2xl text-gray-300">
+                    <a href="tel:+38971590101" aria-label="Telefono SHAINI GARAGE" class="hover:text-white"><i class="fa-solid fa-phone"></i></a>
+                    <a href="https://wa.me/38971590101" target="_blank" rel="noopener noreferrer" aria-label="Kontakto SHAINI GARAGE në WhatsApp" class="hover:text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/autostyleshainigarage/" target="_blank" rel="noopener noreferrer" aria-label="Instagram SHAINI GARAGE" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+               
+            </div>
+        </div>
+    </header>
+
+    <!-- Lista e Shërbimeve -->
+    <main class="max-w-6xl mx-auto px-4 py-10">
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h2 class="text-2xl font-normal text-gray-700">Njihuni me shërbimet tona</h2>
+                <p class="text-gray-400">Rezervoni orarin tuaj tani!</p>
+            </div>
+            <!-- Butonat e lëvizjes majtas/djathtas -->
+            <div class="flex gap-2">
+                <button id="btnLeft" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-500 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button id="btnRight" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-500 transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Kartat horizontale -->
+        <div id="servicesContainer" class="flex overflow-x-auto gap-4 pb-6 hide-scrollbar snap-x snap-mandatory scroll-smooth">
+            <!-- Shërbimet do të shtohen këtu nga JavaScript -->
+        </div>
+    </main>
+
+    <!-- Seksioni i Hartës -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <h2 class="text-2xl text-gray-700 mb-5">Ku ndodhemi?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="border border-gray-200 rounded-xl p-6">
+                <h3 class="text-xl text-gray-700 mb-1">Tetovë</h3>
+                <p class="text-sm text-gray-400 mb-4">Tetovë 1200, Maqedoni e Veriut</p>
+                <div class="w-full h-64 rounded-xl overflow-hidden relative group">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.4497416769495!2d20.958920600000003!3d41.99062259999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini's%20Garage!5e0!3m2!1sen!2smk!4v1792337590170!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+            <div class="border border-gray-200 rounded-xl p-6">
+                <h3 class="text-xl text-gray-700 mb-1">Shkup</h3>
+                <p class="text-sm text-gray-400 mb-4">Shkup, Maqedoni e Veriut</p>
+                <div class="w-full h-64 rounded-xl overflow-hidden relative group">
+                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.689940744929!2d21.3358204!3d42.0069294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13541300379f1b6d%3A0xde1aae26673b2527!2sAutoStyle-ShainiGarage!5e0!3m2!1sen!2smk!4v1792337565746!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria e videove -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <h2 class="text-2xl text-gray-700 mb-5">Galeria e videove</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 1">
+                <source src="8b51a15a-14e5-4cd7-bbab-fa01cdeb2d4a.mp4" type="video/mp4">
+            </video>
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 2">
+                <source src="foto/a2.mp4" type="video/mp4">
+            </video>
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 3">
+                <source src="foto/a3.mp4" type="video/mp4">
+            </video>
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 4">
+                <source src="foto/a4.mp4" type="video/mp4">
+            </video>
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 5">
+                <source src="foto/a5.mp4" type="video/mp4">
+            </video>
+            <video class="w-full aspect-video rounded-xl bg-black object-cover shadow-sm" controls preload="metadata" playsinline aria-label="Video nga SHAINI GARAGE 6">
+                <source src="foto/a6.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- Galeria e fotografive -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <h2 class="text-2xl text-gray-700 mb-5">Galeria e fotografive</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <img src="foto/folje karaseri.png" alt="Punim me folie karoserie nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: punim me folie karoserie" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+            <img src="foto/ppf mbrojtje.png" alt="Mbrojtje PPF nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: mbrojtje PPF" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+            <img src="foto/xhamat e zinj.png" alt="Xhama të zinj nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: xhama të zinj" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+            <img src="foto/chrome.png" alt="Chrome Delete nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: Chrome Delete" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+            <img src="foto/shtopa.png" alt="Punime për dritat e veturës nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: punime për dritat" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+            <img src="foto/interior.png" alt="Pastrim i interierit nga SHAINI GARAGE" loading="lazy" tabindex="0" role="button" aria-label="Zmadho fotografinë: pastrim i interierit" class="gallery-photo w-full aspect-square rounded-xl object-cover shadow-sm cursor-zoom-in">
+        </div>
+    </section>
+
+    <div id="photoLightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true" aria-label="Fotografi e zmadhuar">
+        <button id="closePhotoLightbox" type="button" class="absolute right-5 top-5 text-4xl leading-none text-white hover:text-gray-300" aria-label="Mbyll fotografinë">&times;</button>
+        <img id="lightboxImage" src="" alt="" class="max-h-[85vh] max-w-[95vw] cursor-zoom-out rounded-lg object-contain">
+    </div>
+
+    <footer class="bg-[#0f1115] px-4 py-8 text-gray-300">
+        <div class="max-w-6xl mx-auto flex flex-col items-center gap-3 border-b border-gray-700 pb-6 text-center">
+            <div>
+                <h2 class="mb-2 text-lg font-bold text-white">Krijuesi i faqes</h2>
+                <p class="text-sm text-gray-400">
+                    Krijuar nga
+                    <a href="https://www.jetonelezi.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-white underline decoration-gray-500 underline-offset-4 hover:text-[#3de089]">
+                        Jeton Elezi
+                    </a>
+                </p>
+            </div>
+        </div>
+        <p class="max-w-6xl mx-auto pt-5 text-center text-xs text-gray-500">
+            © 2026 Shaini Garage. Të gjitha të drejtat e rezervuara.
+        </p>
+    </footer>
+
+    <!-- MODAL (Dritarja e Detajeve) -->
+    <div id="serviceModal" class="fixed inset-0 bg-black/60 z-50 hidden flex-col justify-center items-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-5xl max-h-[90vh] w-full flex flex-col md:flex-row overflow-y-auto relative modal-enter shadow-2xl">
+            <!-- Butoni Mbyll -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-red-500 font-bold hover:text-red-700 flex items-center gap-1 z-20">
+                <i class="fa-solid fa-xmark"></i> Mbyll
+            </button>
+
+            <!-- Fotoja Majtas -->
+            <div class="w-full md:w-1/3 relative bg-gray-900 h-48 md:h-auto md:min-h-[620px] shrink-0">
+                <img id="modalImg" src="" alt="Service" class="w-full h-full object-cover opacity-80">
+                <!-- Titulli mbi foto -->
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h3 id="modalImgTitle" class="bg-white text-black font-bold text-lg md:text-xl p-2 inline-block">Titulli këtu</h3>
+                </div>
+            </div>
+
+            <!-- Detajet Djathtas -->
+            <div class="w-full md:w-2/3 p-6 md:p-8">
+                <h2 id="modalTitle" class="text-2xl font-bold mb-2 pr-12 text-gray-800">Titulli i plotë</h2>
+                <p id="modalDesc" class="text-gray-600 text-sm mb-5"></p>
+
+                <form id="bookingForm" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="bookingFirstName" class="block text-sm font-medium text-gray-700 mb-1">Emër</label>
+                            <input id="bookingFirstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label for="bookingLastName" class="block text-sm font-medium text-gray-700 mb-1">Mbiemër</label>
+                            <input id="bookingLastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="bookingPhone" class="block text-sm font-medium text-gray-700 mb-1">Numër kontakti</label>
+                        <input id="bookingPhone" name="phone" type="tel" autocomplete="tel" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                    </div>
+                    <div>
+                        <label for="bookingVehicle" class="block text-sm font-medium text-gray-700 mb-1">Vetura</label>
+                        <input id="bookingVehicle" name="vehicle" type="text" placeholder="Marka dhe modeli i veturës" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                    </div>
+                    <div>
+                        <label for="bookingLocation" class="block text-sm font-medium text-gray-700 mb-1">Lokacioni</label>
+                        <select id="bookingLocation" name="location" required class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                            <option value="">Zgjidh lokacionin</option>
+                            <option value="Tetovë">Tetovë</option>
+                            <option value="Shkup">Shkup</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="bookingDate" class="block text-sm font-medium text-gray-700 mb-1">Data e preferuar</label>
+                            <input id="bookingDate" name="date" type="date" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label for="bookingTime" class="block text-sm font-medium text-gray-700 mb-1">Ora e preferuar</label>
+                            <input id="bookingTime" name="time" type="time" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl flex justify-center items-center gap-3 transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Bëje rezervimin në WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT KODI -->
+    <script>
+        // Shërbimet e SHAINI GARAGE
+        const services = [
+            {
+                id: 1,
+                title: "Wrap",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Veshje e plotë ose e pjesshme me folie premium.",
+                fullDesc: "<p>Veshje e plotë ose e pjesshme me folie premium.</p>",
+                img: "foto2\\fghjydkiydt.webp"
+            },
+            {
+                id: 2,
+                title: "PPF",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Paint Protection Film për mbrojtje nga gërvishtjet.",
+                fullDesc: "<p>Paint Protection Film për mbrojtje nga gërvishtjet.</p>",
+                img: "foto2\\3m-paint-protection-film-series-150-gloss.webp"
+            },
+            {
+                id: 3,
+                title: "Xhama të Zi",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Errësim xhamash me kualitet të lartë.",
+                fullDesc: "<p>Errësim xhamash me kualitet të lartë.</p>",
+                img: "foto2\\window-tinting.jpg"
+            },
+            {
+                id: 4,
+                title: "Chrome Delete",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Zhdukja e detajeve të kromit për një pamje agresive.",
+                fullDesc: "<p>Zhdukja e detajeve të kromit për një pamje agresive.</p>",
+                img: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 5,
+                title: "Fara & Shtopa",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Zbukurim dhe mbrojtje për dritat tuaja.",
+                fullDesc: "<p>Zbukurim dhe mbrojtje për dritat tuaja.</p>",
+                img: "foto2\\63187b343220033170763e0f_WhatsApp Image 2022-09-07 at 12.06.10.jpeg"
+            },
+            {
+                id: 6,
+                title: "Polish",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Rikthimi i shkëlqimit total të ngjyrës origjinale.",
+                fullDesc: "<p>Rikthimi i shkëlqimit total të ngjyrës origjinale.</p>",
+                img: "foto2\\images.jpg"
+            },
+            {
+                id: 7,
+                title: "Pastrim Kimik",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Pastrim i thellë profesional i interierit (Hemisko).",
+                fullDesc: "<p>Pastrim i thellë profesional i interierit (Hemisko).</p>",
+                img: "foto2\\istockphoto-1800033825-612x612.jpg"
+            },
+            {
+                id: 8,
+                title: "Body Kit",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Ndërrim i farave, shtopave dhe brankiave.",
+                fullDesc: "<p>Ndërrim i farave, shtopave dhe brankiave.</p>",
+                img: "foto2\\Untitled_design_18__11zon_a3d0deb6-aa37-4407-a218-f36ee6f0baa6_1024x1024.webp"
+            },
+            {
+                id: 9,
+                title: "Aksesore",
+                duration: "Sipas shërbimit",
+                price: "Me marrëveshje",
+                shortDesc: "Instalim i aksesorëve të ndryshëm për veturën.",
+                fullDesc: "<p>Instalim i aksesorëve të ndryshëm për veturën.</p>",
+                img: "foto2\\images (1).jpg"
+            }
+        ];
+
+        const container = document.getElementById('servicesContainer');
+
+        const locationSchedules = [
+            {
+                buttonId: 'tetovoLocationButton',
+                chevronId: 'tetovoChevron',
+                name: 'Orari - Tetovë',
+                statusId: 'tetovoStatus',
+                days: [
+                    ['E hënë', '08:00-16:00'],
+                    ['E martë', 'Mbyllur'],
+                    ['E mërkurë', '08:00-16:00'],
+                    ['E enjte', '08:00-16:00'],
+                    ['E premte', 'Mbyllur'],
+                    ['E shtunë', 'Mbyllur'],
+                    ['E diel', 'Mbyllur']
+                ]
+            },
+            {
+                buttonId: 'skopjeLocationButton',
+                chevronId: 'skopjeChevron',
+                name: 'Orari - Shkup',
+                statusId: 'skopjeStatus',
+                days: [
+                    ['E hënë', 'Mbyllur'],
+                    ['E martë', '08:00-16:00'],
+                    ['E mërkurë', 'Mbyllur'],
+                    ['E enjte', 'Mbyllur'],
+                    ['E premte', '08:00-16:00'],
+                    ['E shtunë', '08:00-16:00'],
+                    ['E diel', 'Mbyllur']
+                ]
+            }
+        ];
+
+        locationSchedules.forEach(location => {
+            location.openDays = location.days.reduce((days, day, index) => {
+                if (day[1] !== 'Mbyllur') days.push((index + 1) % 7);
+                return days;
+            }, []);
+        });
+
+        const schedulePanel = document.getElementById('locationSchedule');
+        const scheduleTitle = document.getElementById('scheduleTitle');
+        const scheduleDays = document.getElementById('scheduleDays');
+
+        function showLocationSchedule(location) {
+            const isAlreadyOpen = !schedulePanel.classList.contains('hidden')
+                && schedulePanel.dataset.location === location.buttonId;
+
+            locationSchedules.forEach(item => {
+                document.getElementById(item.buttonId).setAttribute('aria-expanded', 'false');
+                document.getElementById(item.chevronId).className = 'fa-solid fa-chevron-down';
+            });
+
+            if (isAlreadyOpen) {
+                schedulePanel.classList.add('hidden');
+                delete schedulePanel.dataset.location;
+                return;
+            }
+
+            scheduleTitle.textContent = location.name;
+            scheduleDays.replaceChildren(...location.days.map(([day, hours]) => {
+                const row = document.createElement('li');
+                row.className = 'flex justify-between gap-4 border-b border-gray-100 pb-2 last:border-0 last:pb-0';
+
+                const dayName = document.createElement('span');
+                dayName.textContent = day;
+                const openingHours = document.createElement('span');
+                openingHours.className = hours === 'Mbyllur' ? 'font-medium text-red-600' : 'font-medium text-gray-900';
+                openingHours.textContent = hours;
+
+                row.append(dayName, openingHours);
+                return row;
+            }));
+            schedulePanel.dataset.location = location.buttonId;
+            schedulePanel.classList.remove('hidden');
+            document.getElementById(location.buttonId).setAttribute('aria-expanded', 'true');
+            document.getElementById(location.chevronId).className = 'fa-solid fa-chevron-up';
+        }
+
+        locationSchedules.forEach(location => {
+            document.getElementById(location.buttonId).addEventListener('click', () => {
+                showLocationSchedule(location);
+            });
+        });
+
+        function updateLocationStatuses() {
+            const parts = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'Europe/Skopje',
+                weekday: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                hourCycle: 'h23'
+            }).formatToParts(new Date());
+            const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+            const weekdays = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+            const currentDay = weekdays[values.weekday];
+            const currentMinutes = Number(values.hour) * 60 + Number(values.minute);
+
+            locationSchedules.forEach(location => {
+                const isOpen = location.openDays.includes(currentDay)
+                    && currentMinutes >= 8 * 60
+                    && currentMinutes < 16 * 60;
+                const status = document.getElementById(location.statusId);
+                status.textContent = isOpen ? 'Hapur tani' : 'Mbyllur tani';
+                status.classList.toggle('text-green-300', isOpen);
+                status.classList.toggle('text-red-300', !isOpen);
+                status.parentElement.setAttribute('aria-label', `${status.previousElementSibling.textContent}: ${status.textContent}`);
+            });
+        }
+
+        // Gjenerimi i Kartave të Shërbimeve
+        function renderServices() {
+            services.forEach(srv => {
+                const cardHtml = `
+                    <div onclick="openModal(${srv.id})" class="min-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-100 flex flex-col snap-start shrink-0 overflow-hidden cursor-pointer transition-shadow group">
+                        <div class="h-48 relative overflow-hidden bg-black">
+                            <img src="${srv.img}" alt="${srv.title}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight">${srv.title}</h3>
+                            <p class="text-xs text-gray-400 mt-1 mb-3"><i class="fa-regular fa-clock"></i> Kohëzgjatja: ${srv.duration}</p>
+                            <p class="text-sm text-gray-500 line-clamp-2">${srv.shortDesc}</p>
+                        </div>
+                        <div class="p-5 pt-0 mt-auto flex flex-col gap-3">
+                            <span class="font-bold text-lg text-gray-900">${srv.price}</span>
+                            <button class="w-full bg-[#111318] hover:bg-black text-white font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-calendar-days"></i> Rezervo
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // Funksioni për hapjen e Modal-it
+        function openModal(id) {
+            const srv = services.find(s => s.id === id);
+            if (!srv) return;
+
+            document.getElementById('modalImg').src = srv.img;
+            document.getElementById('modalImgTitle').innerText = srv.title;
+            document.getElementById('modalTitle').innerText = srv.title;
+            document.getElementById('modalDesc').innerHTML = srv.fullDesc;
+            document.getElementById('bookingForm').reset();
+            const today = new Date();
+            const localToday = [
+                today.getFullYear(),
+                String(today.getMonth() + 1).padStart(2, '0'),
+                String(today.getDate()).padStart(2, '0')
+            ].join('-');
+            document.getElementById('bookingDate').min = localToday;
+
+            const modal = document.getElementById('serviceModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Ndalon scroll-in e faqes pas dritares
+        }
+
+        // Funksioni për mbylljen
+        function closeModal() {
+            const modal = document.getElementById('serviceModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto'; // Rikthen scroll-in
+        }
+
+        // Mbyll modal-in nëse klikon jashtë kutisë së bardhë
+        document.getElementById('serviceModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!this.reportValidity()) return;
+
+            const formData = new FormData(this);
+            const message = [
+                'Përshëndetje SHAINI GARAGE, dua të bëj një rezervim.',
+                '',
+                `Shërbimi: ${document.getElementById('modalTitle').textContent}`,
+                `Emër dhe mbiemër: ${formData.get('firstName')} ${formData.get('lastName')}`,
+                `Numër kontakti: ${formData.get('phone')}`,
+                `Vetura: ${formData.get('vehicle')}`,
+                `Lokacioni: ${formData.get('location')}`,
+                `Data e preferuar: ${formData.get('date')}`,
+                `Ora e preferuar: ${formData.get('time')}`
+            ].join('\n');
+            const whatsappUrl = `https://wa.me/38971590101?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        });
+
+        const photoLightbox = document.getElementById('photoLightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+
+        function closePhotoLightbox() {
+            photoLightbox.classList.add('hidden');
+            photoLightbox.classList.remove('flex');
+            lightboxImage.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('.gallery-photo').forEach(photo => {
+            photo.addEventListener('click', () => {
+                lightboxImage.src = photo.src;
+                lightboxImage.alt = photo.alt;
+                photoLightbox.classList.remove('hidden');
+                photoLightbox.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            });
+            photo.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    photo.click();
+                }
+            });
+        });
+
+        photoLightbox.addEventListener('click', event => {
+            if (event.target === photoLightbox || event.target === lightboxImage) {
+                closePhotoLightbox();
+            }
+        });
+        document.getElementById('closePhotoLightbox').addEventListener('click', closePhotoLightbox);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !photoLightbox.classList.contains('hidden')) {
+                closePhotoLightbox();
+            }
+        });
+
+        // Kontrollet e Lëvizjes Majtas/Djathtas
+        document.getElementById('btnLeft').onclick = () => {
+            container.scrollBy({ left: -300, behavior: 'smooth' });
+        };
+        document.getElementById('btnRight').onclick = () => {
+            container.scrollBy({ left: 300, behavior: 'smooth' });
+        };
+
+        // Inicializimi
+        renderServices();
+        updateLocationStatuses();
+        setInterval(updateLocationStatuses, 60000);
+    </script>
+</body>
+</html>
