@@ -23,6 +23,29 @@
         /* Animacioni i dritares (Modal) */
         .modal-enter { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        body { overflow-x: hidden; }
+
+        @media (max-width: 640px) {
+            #servicesContainer > div {
+                min-width: min(280px, calc(100vw - 2rem));
+            }
+
+            #locationSchedule {
+                left: 50%;
+                width: min(20rem, calc(100vw - 2rem));
+                transform: translateX(-50%);
+            }
+
+            #serviceModal {
+                padding: 0.5rem;
+            }
+
+            #serviceModal > div {
+                max-height: calc(100dvh - 1rem);
+                border-radius: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-gray-800">
@@ -31,12 +54,12 @@
     <header class="watermark-bg text-white pt-12 pb-16 px-4 relative z-20 overflow-visible">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
             <!-- Profili -->
-            <div class="flex items-center gap-4 mb-6 md:mb-0">
-                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
+            <div class="flex w-full min-w-0 items-center gap-3 sm:gap-4 mb-6 md:mb-0 md:w-auto">
+                <div class="w-20 h-20 md:w-24 md:h-24 shrink-0 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
                     <img src="foto/logo.png" alt="Logo SHAINI GARAGE" class="w-full h-full rounded-full object-contain">
                 </div>
-                <div class="relative">
-                    <h1 class="text-2xl font-bold">SHAINI GARAGE</h1>
+                <div class="relative min-w-0 flex-1">
+                    <h1 class="text-xl sm:text-2xl font-bold">SHAINI GARAGE</h1>
                     <p class="text-sm text-gray-300 mb-2"><i class="fa-solid fa-location-dot mr-1"></i> Tetovë, Shkup - Maqedonia e Veriut</p>
                     <div class="flex flex-wrap gap-2" aria-label="Statusi i lokacioneve">
                         <button id="tetovoLocationButton" type="button" aria-expanded="false" aria-controls="locationSchedule" class="bg-gray-800 text-white text-xs font-bold px-3 py-2 rounded-full flex flex-col items-start gap-1">
@@ -56,11 +79,11 @@
             </div>
 
             <!-- Rrjetet Sociale dhe Butoni Rezervo -->
-            <div class="flex flex-col items-center md:items-end gap-4">
-                <div class="flex gap-3 text-2xl text-gray-300">
-                    <a href="tel:+38971590101" aria-label="Telefono SHAINI GARAGE" class="hover:text-white"><i class="fa-solid fa-phone"></i></a>
-                    <a href="https://wa.me/38971590101" target="_blank" rel="noopener noreferrer" aria-label="Kontakto SHAINI GARAGE në WhatsApp" class="hover:text-white"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="https://www.instagram.com/autostyleshainigarage/" target="_blank" rel="noopener noreferrer" aria-label="Instagram SHAINI GARAGE" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+            <div class="flex w-full flex-col items-center md:w-auto md:items-end gap-4">
+                <div class="flex gap-5 text-2xl text-gray-300">
+                    <a href="tel:+38971590101" aria-label="Telefono SHAINI GARAGE" class="flex min-h-11 min-w-11 items-center justify-center hover:text-white"><i class="fa-solid fa-phone"></i></a>
+                    <a href="https://wa.me/38971590101" target="_blank" rel="noopener noreferrer" aria-label="Kontakto SHAINI GARAGE në WhatsApp" class="flex min-h-11 min-w-11 items-center justify-center hover:text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/autostyleshainigarage/" target="_blank" rel="noopener noreferrer" aria-label="Instagram SHAINI GARAGE" class="flex min-h-11 min-w-11 items-center justify-center hover:text-white"><i class="fa-brands fa-instagram"></i></a>
                 </div>
                
             </div>
@@ -69,13 +92,13 @@
 
     <!-- Lista e Shërbimeve -->
     <main class="max-w-6xl mx-auto px-4 py-10">
-        <div class="flex justify-between items-end mb-6">
+        <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <h2 class="text-2xl font-normal text-gray-700">Njihuni me shërbimet tona</h2>
                 <p class="text-gray-400">Rezervoni orarin tuaj tani!</p>
             </div>
             <!-- Butonat e lëvizjes majtas/djathtas -->
-            <div class="flex gap-2">
+            <div class="flex gap-2 self-end sm:self-auto">
                 <button id="btnLeft" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-500 transition">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
@@ -95,18 +118,18 @@
     <section class="max-w-6xl mx-auto px-4 py-8">
         <h2 class="text-2xl text-gray-700 mb-5">Ku ndodhemi?</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="border border-gray-200 rounded-xl p-6">
+            <div class="border border-gray-200 rounded-xl p-4 sm:p-6">
                 <h3 class="text-xl text-gray-700 mb-1">Tetovë</h3>
                 <p class="text-sm text-gray-400 mb-4">Tetovë 1200, Maqedoni e Veriut</p>
-                <div class="w-full h-64 rounded-xl overflow-hidden relative group">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.4497416769495!2d20.958920600000003!3d41.99062259999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini's%20Garage!5e0!3m2!1sen!2smk!4v1792337590170!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <div class="w-full h-56 sm:h-64 rounded-xl overflow-hidden relative group">
+                    <iframe title="Lokacioni i SHAINI GARAGE në Tetovë" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.4497416769495!2d20.958920600000003!3d41.99062259999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f19bc2111d7d%3A0x35dd06734e269a82!2sShaini's%20Garage!5e0!3m2!1sen!2smk!4v1792337590170!5m2!1sen!2smk" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
-            <div class="border border-gray-200 rounded-xl p-6">
+            <div class="border border-gray-200 rounded-xl p-4 sm:p-6">
                 <h3 class="text-xl text-gray-700 mb-1">Shkup</h3>
                 <p class="text-sm text-gray-400 mb-4">Shkup, Maqedoni e Veriut</p>
-                <div class="w-full h-64 rounded-xl overflow-hidden relative group">
-                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.689940744929!2d21.3358204!3d42.0069294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13541300379f1b6d%3A0xde1aae26673b2527!2sAutoStyle-ShainiGarage!5e0!3m2!1sen!2smk!4v1792337565746!5m2!1sen!2smk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <div class="w-full h-56 sm:h-64 rounded-xl overflow-hidden relative group">
+                   <iframe title="Lokacioni i SHAINI GARAGE në Shkup" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2964.689940744929!2d21.3358204!3d42.0069294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13541300379f1b6d%3A0xde1aae26673b2527!2sAutoStyle-ShainiGarage!5e0!3m2!1sen!2smk!4v1792337565746!5m2!1sen!2smk" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
         </div>
@@ -198,24 +221,24 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="bookingFirstName" class="block text-sm font-medium text-gray-700 mb-1">Emër</label>
-                            <input id="bookingFirstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                            <input id="bookingFirstName" name="firstName" type="text" autocomplete="given-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label for="bookingLastName" class="block text-sm font-medium text-gray-700 mb-1">Mbiemër</label>
-                            <input id="bookingLastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                            <input id="bookingLastName" name="lastName" type="text" autocomplete="family-name" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                         </div>
                     </div>
                     <div>
                         <label for="bookingPhone" class="block text-sm font-medium text-gray-700 mb-1">Numër kontakti</label>
-                        <input id="bookingPhone" name="phone" type="tel" autocomplete="tel" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        <input id="bookingPhone" name="phone" type="tel" autocomplete="tel" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                     </div>
                     <div>
                         <label for="bookingVehicle" class="block text-sm font-medium text-gray-700 mb-1">Vetura</label>
-                        <input id="bookingVehicle" name="vehicle" type="text" placeholder="Marka dhe modeli i veturës" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        <input id="bookingVehicle" name="vehicle" type="text" placeholder="Marka dhe modeli i veturës" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                     </div>
                     <div>
                         <label for="bookingLocation" class="block text-sm font-medium text-gray-700 mb-1">Lokacioni</label>
-                        <select id="bookingLocation" name="location" required class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                        <select id="bookingLocation" name="location" required class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                             <option value="">Zgjidh lokacionin</option>
                             <option value="Tetovë">Tetovë</option>
                             <option value="Shkup">Shkup</option>
@@ -224,11 +247,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="bookingDate" class="block text-sm font-medium text-gray-700 mb-1">Data e preferuar</label>
-                            <input id="bookingDate" name="date" type="date" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                            <input id="bookingDate" name="date" type="date" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label for="bookingTime" class="block text-sm font-medium text-gray-700 mb-1">Ora e preferuar</label>
-                            <input id="bookingTime" name="time" type="time" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
+                            <input id="bookingTime" name="time" type="time" required class="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200">
                         </div>
                     </div>
                     <button type="submit" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl flex justify-center items-center gap-3 transition">
